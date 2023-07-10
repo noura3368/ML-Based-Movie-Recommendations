@@ -31,13 +31,23 @@
                 <div class="input-group">
                     <input class="form-control border rounded-pill" type="search" value="Movie Name..." id="example-search-input">
                 </div>
-                <button type="button" class="btn btn-light" style="margin-top: 30px;">Submit</button>
+                <button type="button" id="submit_button" class="btn btn-light" style="margin-top: 30px;">Submit</button>
             </div>
         </div>
     <script>
         $( "#example-search-input" ).on( "click", function() {
             this.value = "";
-        } );
+        });
+        $("#submit_button").on("click", function() {
+            alert(document.getElementById("example-search-input"))
+            fetch("/movies", {
+                method:"POST",
+                headers: {
+                    "Content-type":"application/json"
+                },
+                body:JSON.stringify({"movie":document.getElementById("example-search-input").value})
+            });
+        });
     </script>
     </body>
 </html>
