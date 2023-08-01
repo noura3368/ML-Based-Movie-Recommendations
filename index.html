@@ -39,33 +39,19 @@
             this.value = "";
         });
         $("#submit_button").on("click", function() {
-            $.ajax({
-                method:"POST",
-                url:"http://localhost:3000/movies",
-                contentType: "application/json; charset=utf-8",
-                data:{
-                    "movie":JSON.stringify(document.getElementById("example-search-input").value)
-                },
-                success: function(data, textStatus){
-                    alert(data);
-                },
-                error: function(data, textStatus){
-                    alert("error")
-                }
-            });
-            
-            //alert(document.getElementById("example-search-input").value)
-            
-            //jQuery.support.cors = true;
-            /*
-            fetch("/movies", {
-                method:"POST",
-                headers: {
-                    "Content-type":"application/json; charset=utf-8"
-                },
-                body:JSON.stringify({"movie":document.getElementById("example-search-input").value})
-            });
-            */
+            var val = document.getElementById("example-search-input").value
+            fetch('/movies', {
+                    method: 'POST',
+                    headers: {
+                        Authorization: 'Bearer abcdxyz',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({val}),
+                })
+                    .then((res) => {
+                        console.log("hello!")
+                        window.location.href = res['url']
+                    })
         
         });
     </script>
