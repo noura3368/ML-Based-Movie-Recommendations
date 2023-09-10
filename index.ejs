@@ -14,6 +14,9 @@
         text-align: center;
         min-height: 100vh;
     }
+    .tab {
+        tab-size: 10;
+    }
 </style>
 <html>
     <head>
@@ -29,10 +32,12 @@
         <div class="row mt-5 bottom">
             <div class="col-md-5 mx-auto">
                 <div class="input-group">
-                    <input class="form-control border rounded-pill" type="search" value="Movie Name..." id="example-search-input">
+                    <input type="text" placeholder="Search.." name="search" id="example-search-input" class="form-control">
+                    <!--- <input class="form-control border rounded-pill" type="search" value="Movie Name..." id="example-search-input" style="position:absolute; width:500px"> --->
+                    <div></div>
+                    <button type="submit" id="submit_button" class="btn btn-light" style="width:100px">Submit</button>
                 </div>
-                <input type="submit" id="submit_button" class="btn btn-light" style="margin-top: 30px;" value="Submit">
-            </div>
+                <!--- <input type="submit" id="submit_button" style="float:right" class="btn btn-light" value="Submit"> --->
         </div>
     <script>
         $( "#example-search-input" ).on( "click", function() {
@@ -40,20 +45,18 @@
         });
         $("#submit_button").on("click", function() {
             var val = document.getElementById("example-search-input").value
-            fetch('/movies', {
-                    method: 'POST',
-                    headers: {
-                        Authorization: 'Bearer abcdxyz',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({val}),
-                })
-                    .then((res) => {
-                        console.log("hello!")
-                        window.location.href = res['url']
-                    })
-        
+            $("#example-search-input").animate({top: '-200px'});
+            $("#submit_button").animate({top: '-200px'});
+            $.ajax({
+                type: "POST",
+                url: "/",
+                data: {movie: val},
+                success: function(response){
+                    alert("success!")
+                }
+            });
         });
+        
     </script>
     </body>
 </html>
