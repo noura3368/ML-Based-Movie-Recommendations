@@ -51,10 +51,17 @@
                 url: "/",
                 data: {movie: val},
                 success: function(response){
-                    var dictionary = JSON.parse(JSON.stringify(response));
-                    alert(dictionary)
-                    for([key, value] in dictionary['movies']){
-                        alert(key)
+                    var movies_dictionary = (response.movies).replace(/':/g,"'':").replace(/, '/g, ", ''").replace(/{'/g, "{''").replace(/: '/, ": ''").replace(/'}/, 
+                    "''}").replace(/:'/, ":''")
+                    alert(movies_dictionary)
+                    movies_dictionary = JSON.parse(movies_dictionary)
+                    alert(movies_dictionary)
+                    var movies = {}
+                    var movie_string_key = ""
+                    var movie_url_value = ""
+                    for(var i=0, j; i < response.movies.length; i++){
+                        if ("{}:".indexOf(response.movies[i]) > -1)
+                        alert(j)
                     }
                 }
             });
