@@ -31,13 +31,13 @@
     <body class="background">
         <div class="row mt-5 bottom">
             <div class="col-md-5 mx-auto">
-                <div class="input-group">
-                    <input type="text" placeholder="Search.." name="search" id="example-search-input" class="form-control">
+                <div class="input-group" id="input_div_id">
+                    <input type="text" placeholder="Search.." name="search" id="example-search-input" class="form-control border rounded-pill">
                     <!--- <input class="form-control border rounded-pill" type="search" value="Movie Name..." id="example-search-input" style="position:absolute; width:500px"> --->
                     <div></div>
-                    <button type="submit" id="submit_button" class="btn btn-light" style="width:100px">Submit</button>
+                    <button type="submit" id="submit_button" class="btn btn-light" style="width:100px; margin-left:10px">Submit</button>
                 </div>
-                <!--- <input type="submit" id="submit_button" style="float:right" class="btn btn-light" value="Submit"> --->
+                <!--- <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/prbZxJxGcy07y60eq8lCGMciTYz.jpg"> --->
         </div>
     <script>
         $( "#example-search-input" ).on( "click", function() {
@@ -45,14 +45,17 @@
         });
         $("#submit_button").on("click", function() {
             var val = document.getElementById("example-search-input").value
-            $("#example-search-input").animate({top: '-200px'});
-            $("#submit_button").animate({top: '-200px'});
+            $("#input_div_id").animate({top: '-250px'});
             $.ajax({
                 type: "POST",
                 url: "/",
                 data: {movie: val},
                 success: function(response){
-                    alert("success!")
+                    var dictionary = JSON.parse(JSON.stringify(response));
+                    alert(dictionary)
+                    for([key, value] in dictionary['movies']){
+                        alert(key)
+                    }
                 }
             });
         });

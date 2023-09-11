@@ -39,6 +39,7 @@ app.post('/', (req, res) => {
     s.stdout.on('data', (data) => { 
         var movies = data.toString()
         res.send({'movies':movies})
+
         //res.send({"movies":movies, "url":"/movies"});
         //res.render("movies", {movies:movies})
         //res.redirect(__dirname + '/views/movies.ejs', {movies:movies})
