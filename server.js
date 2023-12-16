@@ -13,8 +13,8 @@ const __dirname = dirname(__filename);
 
 var app = express()
 app.use(express.urlencoded()); 
-app.use(express.json())
-//app.use(bodyParser.json());
+app.use(express.json());
+
 
 // set the view engine to ejs
 app.set('views', './views');
@@ -22,8 +22,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
     //response.sendFile(__dirname + "/index.html")
-    response.render(__dirname + "/index" 
-    )
+    response.render(__dirname + "/index" )
     //response.writeHead(200, {'Content-Type':'text/html'})
     //response.end(__dirname + "/index.html")
 });
@@ -34,12 +33,14 @@ app.get('/movies', function(request, response, ...availabeChoices) {
 });
 */
 
+
+
 app.post('/', (req, res) => {
     const s = spawn("python", ['model.py', req.body.movie]) 
     s.stdout.on('data', (data) => { 
         var movies = data.toString()
+        console.log(movies)
         res.send({'movies':movies})
-
         //res.send({"movies":movies, "url":"/movies"});
         //res.render("movies", {movies:movies})
         //res.redirect(__dirname + '/views/movies.ejs', {movies:movies})

@@ -47,7 +47,7 @@ def get_string_from_df(df, col):
 def send_api_requests(url, create_dataframe=False, key=''):
     headers = {
         "accept": "application/json",
-        "Authorization": ""
+        'Authorization': ''
     }
 
     response = requests.get(url, headers=headers).json()
@@ -115,6 +115,6 @@ def main(movie_name=""):
         if len(found_movie) > 0:
             found_movie = found_movie[0]["poster_path"]
             movie_rec_dict[csv_movie_name[similarity_score[index + 1][0]]] = "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + found_movie
-    print(movie_rec_dict)   
-    #sys.stdout.flush()
+    print(movie_rec_dict)
+    sys.stdout.flush()
 main(movie_name=return_lower_case_title(sys.argv[1]))
