@@ -14,19 +14,39 @@
     .tab {
         tab-size: 10;
     }
+    #loader {
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    width: 90px;
+    height: 90px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 </style>
 <html>
     <head>
         <title>Movie Site</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
-    <body style="background-color: purple;">
+    <body style="background-color: #9d6290;">
         <div id="input_div_id" style="position: absolute;">
-            <!--- <form method="POST" action="/"> --->
                 <input type="text" style="margin-top: 300px; margin-left:430px; width:600px; height:auto; display:inline-block;" placeholder="Search.." name="search" id="example-search-input" class="form-control border rounded-pill">
                 <button type="submit" id="submit_button" class="btn btn-light" style="width:100px; margin-left:10px">Submit</button>
-           <!---  </form> --->
+                <br><br>
         </div>
     </body>
     <script>
@@ -37,21 +57,33 @@
     $("#submit_button").on("click", function() {
         var val = document.getElementById("example-search-input").value
         $("#input_div_id").animate({top: '-250px'});
+        const loader = document.createElement("div")
+        loader.id = "loader"
+        loader.style.marginLeft = "700px"
+        loader.style.marginTop = "200px"
+        document.getElementById("input_div_id").appendChild(loader);
         $.ajax({
             type: "POST",
             url: "/",
             data: {movie: val},
             success: function(response){
-                var movies_dictionary = (response.movies).replace(/':/g,"'':").replace(/, '/g, ", ''").replace(/{'/g, "{''").replace(/: '/, ": ''").replace(/'}/, 
-                "''}").replace(/:'/, ":''")
-                alert(movies_dictionary)
+                var movies_dictionary = (response.movies).replace(/':/g,"\":").replace(/, '/g, ", \"").replace(/{'/g, "{\"").replace(/'}/, 
+                "\"}").replace(/',/g, "\",").replace(/'https/g, "\"https")
                 movies_dictionary = JSON.parse(movies_dictionary)
-                var movies = {}
-                var movie_string_key = ""
-                var movie_url_value = ""
-                for(var i=0, j; i < response.movies.length; i++){
-                    if ("{}:".indexOf(response.movies[i]) > -1)
-                        alert(j)
+                var counter = 1
+                for(let key in movies_dictionary){
+                    $("#loader").fadeOut("slow")
+                    const pic = document.createElement('img');
+                    pic.src = movies_dictionary[key]
+                    pic.style.height = '300px'
+                    pic.style.width = 'auto'
+                    pic.style.margin = '25px 50px 75px 100px'
+                    pic.id = counter
+                    pic.style.display = "none"
+                    loader.style.display = "none"
+                    document.getElementById("input_div_id").appendChild(pic);
+                    $("#" + counter).fadeIn("slow");
+                    counter += 1 
                 }
             }
         });

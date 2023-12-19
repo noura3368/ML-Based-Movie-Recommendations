@@ -47,8 +47,7 @@ def get_string_from_df(df, col):
 def send_api_requests(url, create_dataframe=False, key=''):
     headers = {
         "accept": "application/json",
-        'Authorization': ''
-    }
+        }
 
     response = requests.get(url, headers=headers).json()
     if create_dataframe:
@@ -109,7 +108,7 @@ def main(movie_name=""):
     similarity_score = sorted(list(enumerate(similarity[index_of_movie])), key = lambda x:x[1], reverse=True)
 
     movie_rec_dict = {}
-    for index in range(0, 5):#20):
+    for index in range(0, 21):
         url = "https://api.themoviedb.org/3/search/movie?query=" + quote(csv_movie_name[similarity_score[index + 1][0]])+ "&page=1"
         found_movie = send_api_requests(url=url)['results']
         if len(found_movie) > 0:
