@@ -55,13 +55,24 @@
         this.value = "";
     });
     $("#submit_button").on("click", function() {
+       
         var val = document.getElementById("example-search-input").value
         $("#input_div_id").animate({top: '-250px'});
-        const loader = document.createElement("div")
-        loader.id = "loader"
-        loader.style.marginLeft = "700px"
-        loader.style.marginTop = "200px"
-        document.getElementById("input_div_id").appendChild(loader);
+        if(document.getElementById("loader")){
+            const parentele = document.getElementById("input_div_id")
+            const img = document.getElementsByTagName("img")
+            for(i =0; i < img.length; i++){
+                img[i].parentNode.removeChild(img[i]);
+            }
+            $("#loader").fadeIn("slow")
+        }
+        else {
+            const loader = document.createElement("div")
+            loader.id = "loader"
+            loader.style.marginLeft = "700px"
+            loader.style.marginTop = "200px"
+            document.getElementById("input_div_id").appendChild(loader);
+        }
         $.ajax({
             type: "POST",
             url: "/",
