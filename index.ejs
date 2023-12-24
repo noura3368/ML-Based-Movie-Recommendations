@@ -59,11 +59,26 @@
         var val = document.getElementById("example-search-input").value
         $("#input_div_id").animate({top: '-250px'});
         if(document.getElementById("loader")){
-            const parentele = document.getElementById("input_div_id")
-            const img = document.getElementsByTagName("img")
-            for(i =0; i < img.length; i++){
-                img[i].parentNode.removeChild(img[i]);
+            var img = document.getElementsByTagName("img")
+            var list_of_img = []
+            for(i = 1; i < img.length + 1; i++){
+            //for(key in img) {
+                //console.log(key)
+                c = document.getElementById(i);
+                //console.log(key)
+                //console.log(c)
+                //if(c != null){
+                //c.remove()
+                list_of_img[i - 1] = c
+                //c.parentNode.removeChild(c);
+                //console.log(img)
+                //}
+                //img[i].parentNode.removeChild(img[i]);
             }
+            for(k=0; k < list_of_img.length; k++){
+                list_of_img[k].parentNode.removeChild(list_of_img[k])
+            }
+            
             $("#loader").fadeIn("slow")
         }
         else {
