@@ -8,7 +8,7 @@ import sys
 from pymongo import MongoClient
 from pathlib import Path
 
-path = '/Users/noura/Documents/ML-Based-Movie-Recommendations/.env'
+path = '/etc/secrets/.env'
 contents = Path(path).read_text()
 
 def _connect_mongo(host, port, username, password, db):
