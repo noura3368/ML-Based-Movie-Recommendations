@@ -6,9 +6,7 @@ from urllib.parse import quote
 import requests
 import sys
 from pymongo import MongoClient
-from dotenv import dotenv_values
-
-config = dotenv_values('.env')
+import os
 
 def _connect_mongo(host, port, username, password, db):
     """ A util for making a connection to mongo """
@@ -46,11 +44,9 @@ def get_string_from_df(df, col):
     return v1
 
 def send_api_requests(url, create_dataframe=False, key=''):
-    print("hello")
-    print(config['API_KEY'])
     headers = {
         "accept": "application/json",
-        'Authorization': 'Bearer ' + config['API_KEY']
+        'Authorization': 'Bearer ' + os.environ.get('API_KEY')
         }
 
     response = requests.get(url, headers=headers).json()
