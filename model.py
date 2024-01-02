@@ -1,12 +1,12 @@
 # for dataframe
 import pandas as pd 
+import os
 from sklearn.feature_extraction.text import TfidfVectorizer 
 from sklearn.metrics.pairwise import cosine_similarity
 from urllib.parse import quote
 import requests
 import sys
 from pymongo import MongoClient
-import os
 
 def _connect_mongo(host, port, username, password, db):
     """ A util for making a connection to mongo """
@@ -46,7 +46,7 @@ def get_string_from_df(df, col):
 def send_api_requests(url, create_dataframe=False, key=''):
     headers = {
         "accept": "application/json",
-        'Authorization': str(os.environ.get('API_KEY'))
+        'Authorization': os.environ['API_KEY']
         }
 
     response = requests.get(url, headers=headers).json()
