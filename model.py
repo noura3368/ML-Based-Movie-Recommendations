@@ -7,6 +7,7 @@ from urllib.parse import quote
 import requests
 import sys
 from pymongo import MongoClient
+import logging 
 
 def _connect_mongo(host, port, username, password, db):
     """ A util for making a connection to mongo """
@@ -44,6 +45,8 @@ def get_string_from_df(df, col):
     return v1
 
 def send_api_requests(url, create_dataframe=False, key=''):
+    logging.debug("Hello")
+    logging.debug(os.environ["API_KEY"])
     headers = {
         "accept": "application/json",
         'Authorization': os.environ['API_KEY']
