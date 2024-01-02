@@ -6,9 +6,9 @@ from urllib.parse import quote
 import requests
 import sys
 from pymongo import MongoClient
-from dotenv import load_dotenv
+from dotenv import dotenv_values
 
-config = load_dotenv('.env')
+config = dotenv_values('.env')
 
 def _connect_mongo(host, port, username, password, db):
     """ A util for making a connection to mongo """
