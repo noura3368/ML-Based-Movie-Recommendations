@@ -14,25 +14,22 @@ const __dirname = dirname(__filename);
 var app = express()
 app.use(express.urlencoded()); 
 app.use(express.json());
+const PORT = process.env.PORT || 8081;
 
+// your code
+
+app.listen(PORT, () => {
+  console.log(`server started on port ${PORT}`);
+});
 
 // set the view engine to ejs
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
-    //response.sendFile(__dirname + "/index.html")
     response.render(__dirname + "/index" )
-    //response.writeHead(200, {'Content-Type':'text/html'})
-    //response.end(__dirname + "/index.html")
-});
-/*
-app.get('/movies', function(request, response, ...availabeChoices) {
-    console.log("HELLO!", request)
-    response.render(__dirname + "/views/movies")
-});
-*/
 
+});
 
 
 app.post('/', (req, res) => {
@@ -41,13 +38,9 @@ app.post('/', (req, res) => {
         var movies = data.toString()
         console.log(movies)
         res.send({'movies':movies})
-        //res.send({"movies":movies, "url":"/movies"});
-        //res.render("movies", {movies:movies})
-        //res.redirect(__dirname + '/views/movies.ejs', {movies:movies})
     });
-    //res.sendFile(__dirname + "/views/movies.ejs")
 });
 
-const port = 3000
-app.listen(port)
-console.log(`Listening at http://localhost:${port}`)
+app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`);
+  });
