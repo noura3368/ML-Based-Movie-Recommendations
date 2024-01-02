@@ -46,6 +46,8 @@ def get_string_from_df(df, col):
     return v1
 
 def send_api_requests(url, create_dataframe=False, key=''):
+    print("hello")
+    print(config['API_KEY'])
     headers = {
         "accept": "application/json",
         'Authorization': 'Bearer ' + config['API_KEY']
