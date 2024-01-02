@@ -22,12 +22,14 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
+    console.log("hello!")
     response.render(__dirname + "/index" )
 
 });
 
 
 app.post('/', (req, res) => {
+    console.log("hi!")
     const s = spawn("python", ['model.py', req.body.movie]) 
     s.stdout.on('data', (data) => { 
         var movies = data.toString()
