@@ -16,11 +16,6 @@ app.use(express.urlencoded());
 app.use(express.json());
 const PORT = process.env.PORT || 3030;
 
-// your code
-
-app.listen(PORT, () => {
-  console.log(`server started on port ${PORT}`);
-});
 
 // set the view engine to ejs
 app.set('views', './views');
