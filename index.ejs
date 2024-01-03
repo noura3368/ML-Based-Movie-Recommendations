@@ -62,19 +62,10 @@
             var img = document.getElementsByTagName("img")
             var list_of_img = []
             for(i = 1; i < img.length + 1; i++){
-            //for(key in img) {
-                //console.log(key)
                 c = document.getElementById(i);
-                //console.log(key)
-                //console.log(c)
-                //if(c != null){
-                //c.remove()
                 list_of_img[i - 1] = c
-                //c.parentNode.removeChild(c);
-                //console.log(img)
-                //}
-                //img[i].parentNode.removeChild(img[i]);
             }
+            
             for(k=0; k < list_of_img.length; k++){
                 list_of_img[k].parentNode.removeChild(list_of_img[k])
             }
@@ -88,6 +79,7 @@
             loader.style.marginTop = "200px"
             document.getElementById("input_div_id").appendChild(loader);
         }
+        alert(process.env.API_KEY);
         $.ajax({
             type: "POST",
             url: "/",
