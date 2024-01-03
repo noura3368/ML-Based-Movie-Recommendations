@@ -23,7 +23,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
     console.log("hello!")
-    console.log(process.env.API)
+    console.log(typeof process.env.API)
     response.render(__dirname + "/index" )
 
 });
