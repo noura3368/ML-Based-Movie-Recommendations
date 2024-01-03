@@ -9,6 +9,8 @@ import sys
 from pymongo import MongoClient
 import logging 
 
+os.environ['API'] = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NjA3NjJkMzdhOTRiODZmMWJjMTY1MDc4NDAzZGVkYSIsInN1YiI6IjY1N2QyYmQ4N2FkMDhjMDY3OTRmYjY1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qZBzmUOpI0SDao9oQf3xcemH4P3jTWTs0SNOySEJ8jo'
+
 def _connect_mongo(host, port, username, password, db):
     """ A util for making a connection to mongo """
 
@@ -47,7 +49,7 @@ def get_string_from_df(df, col):
 def send_api_requests(url, create_dataframe=False, key=''):
     headers = {
         "accept": "application/json",
-        'Authorization': str(os.environ['API'])
+        'Authorization': str(sys.argv[1])
         }
 
     response = requests.get(url, headers=headers).json()
