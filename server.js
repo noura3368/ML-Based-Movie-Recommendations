@@ -23,16 +23,17 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
     console.log("hello!")
+    console.log(process.env.API)
     response.render(__dirname + "/index" )
 
 });
 
 
 app.post('/', (req, res) => {
+    console.log(process.env.API)
     const s = spawn("python", ['model.py', req.body.movie]) 
-    console.log(req.body.movie)
+    console.log("S!!!!")
     s.stdout.on('data', (data) => { 
-        console.log("my string")
         var movies = data.toString()
         console.log('movies')
         console.log(movies)
