@@ -30,7 +30,9 @@ app.get('/', function(request, response) {
 
 app.post('/', (req, res) => {
     const s = spawn("python", ['model.py', req.body.movie]) 
+    console.log(req.body.movie)
     s.stdout.on('data', (data) => { 
+        console.log("my string")
         var movies = data.toString()
         console.log('movies')
         console.log(movies)
