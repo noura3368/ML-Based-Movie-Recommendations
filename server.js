@@ -33,8 +33,7 @@ app.post('/', (req, res) => {
     console.log(s.stdout)
     s.stdout.on('data', (data) => { 
         var movies = data.toString()
-        console.log('movies')
-        console.log(movies)
+        console.log(data)
         res.send({'movies':movies})
     });
 });
