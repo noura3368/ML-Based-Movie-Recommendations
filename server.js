@@ -29,10 +29,10 @@ app.get('/', function(request, response) {
 
 app.post('/', (req, res) => {
     console.log(process.env.API)
-    const s = spawn("python", ['model.py', req.body.movie]) 
+    const s = spawn("python", ['model.py', req.body.movie, process.env.API]) 
     s.stdout.on('data', (data) => { 
         var movies = data.toString()
-        console.log(data)
+        console.log(movies)
         res.send({'movies':movies})
     });
 });
