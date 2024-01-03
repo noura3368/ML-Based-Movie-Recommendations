@@ -22,8 +22,6 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
-    console.log("hello!")
-    console.log(typeof process.env.API)
     response.render(__dirname + "/index" )
 
 });
@@ -32,7 +30,7 @@ app.get('/', function(request, response) {
 app.post('/', (req, res) => {
     console.log(process.env.API)
     const s = spawn("python", ['model.py', req.body.movie]) 
-    console.log("S!!!!")
+    console.log(s.stdout)
     s.stdout.on('data', (data) => { 
         var movies = data.toString()
         console.log('movies')
