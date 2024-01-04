@@ -36,7 +36,7 @@ app.post('/', (req, res) => {
         res.send({'movies':movies})
     });
     s.stderr.on('data', (data) => {
-        console.log("hello!")
+        console.error(`child stderr:\n${data}`);
     })
 });
 
