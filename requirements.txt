@@ -1,4 +1,9 @@
 pandas
+numpy
+scipy
+joblib
+threadpoolctl
+scikit-learn 
 sklearn
 urllib3
 pymongo
