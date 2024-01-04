@@ -35,6 +35,9 @@ app.post('/', (req, res) => {
         console.log(movies)
         res.send({'movies':movies})
     });
+    s.stderr.on('data', (data) => {
+        console.log("hello!")
+    })
 });
 
 app.listen(PORT, () => {
