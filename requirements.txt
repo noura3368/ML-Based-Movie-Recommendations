@@ -6,3 +6,4 @@ threadpoolctl
 scikit-learn 
 urllib3
 pymongo
+requests
