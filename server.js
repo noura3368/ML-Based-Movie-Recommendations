@@ -32,7 +32,7 @@ app.post('/', (req, res) => {
     const s = spawn("python", ['model.py', req.body.movie, process.env.API]) 
     s.stdout.on('data', (data) => { 
         var movies = data.toString()
-        //console.log(movies)
+        console.log(movies)
         res.send({'movies':movies})
     });
 });
