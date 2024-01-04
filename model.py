@@ -14,9 +14,9 @@ def _connect_mongo(host, port, username, password, db):
     if username and password:
         #mongo_uri = 'mongodb://%s:%s@%s:%s/%s' % (username, password, host, port, db)
         mongo_uri = "mongodb://localhost:27017"
-        conn = MongoClient(mongo_uri)
+        conn = MongoClient(mongo_uri, connect=False)
     else:
-        conn = MongoClient(host, port)
+        conn = MongoClient(host, port, connect=False)
     return conn[db]
 
 def read_mongo(db, collection, query={}, host='localhost', port=27017, username=None, password=None, no_id=True):
