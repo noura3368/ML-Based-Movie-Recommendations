@@ -13,7 +13,7 @@ def _connect_mongo(host, port, username, password, db):
 
     if username and password:
         #mongo_uri = 'mongodb://%s:%s@%s:%s/%s' % (username, password, host, port, db)
-        mongo_uri = "mongodb://localhost:27017"
+        mongo_uri = "mongodb+srv://" + username + ":" + password + "@atlascluster.dybfxzl.mongodb.net/?retryWrites=true&w=majority&authSource=admin&connectTimeoutMS=60000"
         conn = MongoClient(mongo_uri, connect=False)
     else:
         conn = MongoClient(host, port, connect=False)
@@ -28,6 +28,7 @@ def read_mongo(db, collection, query={}, host='localhost', port=27017, username=
     # Make a query to the specific DB and Collection
     cursor = db[collection].find(query)
 
+    #print(cursor)
     # Expand the cursor and construct the DataFrame
     df =  pd.DataFrame(list(cursor))
     
@@ -60,7 +61,7 @@ def return_lower_case_title(title):
 
 # loading the data from csv file to pandas df
 def main(movie_name=""):
-    movies, collection_value = read_mongo(db="ListofMediaInfo", collection="Movies", username="noura3368", password="YRq4o0IXwfYgQXQK")
+    movies, collection_value = read_mongo(db="movieData", collection="movies", username="noura3368", password=sys.argv[3])
     csv_movie_name = []
     for title in movies['title']:
         csv_movie_name.append(return_lower_case_title(title))
@@ -108,15 +109,13 @@ def main(movie_name=""):
     similarity_score = sorted(list(enumerate(similarity[index_of_movie])), key = lambda x:x[1], reverse=True)
 
     movie_rec_dict = {}
-    for index in range(0, 21):
-        #movie_rec_dict.append(csv_movie_name[similarity_score[index + 1][0]])
-        
+    for index in range(0, 21):  
         url = "https://api.themoviedb.org/3/search/movie?query=" + quote(csv_movie_name[similarity_score[index + 1][0]])+ "&page=1"
         found_movie = send_api_requests(url=url)['results']
         if len(found_movie) > 0:
             found_movie = found_movie[0]["poster_path"]
-            movie_rec_dict[csv_movie_name[similarity_score[index + 1][0]]] = "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + found_movie
+            movie_rec_dict[csv_movie_name[similarity_score[index + 1][0]]] = "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + str(found_movie)
     print(movie_rec_dict)
-    sys.stdout.flush()
+    #sys.stdout.flush()
 
 main(movie_name=return_lower_case_title(sys.argv[1]))
