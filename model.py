@@ -62,12 +62,12 @@ def return_lower_case_title(title):
 # loading the data from csv file to pandas df
 def main(movie_name=""):
     movies, collection_value = read_mongo(db="movieData", collection="movies", username="noura3368", password=sys.argv[3])
-    csv_movie_name = []
-    for title in movies['title']:
-        csv_movie_name.append(return_lower_case_title(title))
+    csv_movie_name = {}
+    for title in movies:
+        csv_movie_name[return_lower_case_title(title['title'])] = title['poster_path']
     # finding a recommendation based off of movie given from user
-    if movie_name in csv_movie_name:
-        index_of_movie = csv_movie_name.index(movie_name)
+    if movie_name in csv_movie_name.keys():
+        index_of_movie = csv_movie_name.keys().index(movie_name)
 
     else:
         url = "https://api.themoviedb.org/3/search/movie?query=" + quote(movie_name)+ "&page=1"
@@ -82,7 +82,7 @@ def main(movie_name=""):
         keywords = get_string_from_df(df=send_api_requests(url=url, create_dataframe=True, key='keywords')[0], col='name')
 
         dictionary_of_new_row_movie = {"genres": genres, "keywords": keywords, "title": found_movie['original_title'], "poster_path":found_movie["poster_path"]}
-        if str(found_movie['original_title']).lower() not in csv_movie_name:
+        if str(found_movie['original_title']).lower() not in csv_movie_name.keys():
             new_row_from_user = pd.DataFrame([dictionary_of_new_row_movie])
             api_parsed_features = genres + ' ' + keywords 
             movies = pd.concat([new_row_from_user, movies.loc[:]]).reset_index(drop=True)
@@ -90,7 +90,7 @@ def main(movie_name=""):
             collection_value.insert_one(dictionary_of_new_row_movie)
         else:
             print(csv_movie_name, "\n")
-            index_of_movie = csv_movie_name.index(str(found_movie['original_title'].lower()))
+            index_of_movie = csv_movie_name.keys().index(str(found_movie['original_title'].lower()))
         #collection_value.insert_one({"genres": genres, "keywords":keywords, "original_title":movie_name, "title":movie_name})
 
     selected_features = ['genres', 'keywords']
@@ -114,9 +114,9 @@ def main(movie_name=""):
     for index in range(0, 21):  
         #url = "https://api.themoviedb.org/3/search/movie?query=" + quote(csv_movie_name[similarity_score[index + 1][0]])+ "&page=1"
         #found_movie = send_api_requests(url=url)['results']
-        if len(found_movie) > 0:
+        #if len(found_movie) > 0:
             #found_movie = found_movie[0]["poster_path"]
-            movie_rec_dict[csv_movie_name[similarity_score[index + 1][0]]] = "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + found_movie['poster_path']
+        movie_rec_dict[csv_movie_name.keys()[similarity_score[index + 1][0]]] = "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + csv_movie_name[movie_rec_dict[csv_movie_name.keys()[similarity_score[index + 1][0]]] ]
     print(movie_rec_dict)
     #sys.stdout.flush()
 
