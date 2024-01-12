@@ -47,7 +47,7 @@ def get_string_from_df(df, col):
 def send_api_requests(url, create_dataframe=False, key=''):
     headers = {
         "accept": "application/json",
-        'Authorization': 'Bearer ' + str(sys.argv[2])
+        'Authorization': 'Bearer ' + str('eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NjA3NjJkMzdhOTRiODZmMWJjMTY1MDc4NDAzZGVkYSIsInN1YiI6IjY1N2QyYmQ4N2FkMDhjMDY3OTRmYjY1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qZBzmUOpI0SDao9oQf3xcemH4P3jTWTs0SNOySEJ8jo')
         }
 
     response = requests.get(url, headers=headers).json()
@@ -61,13 +61,13 @@ def return_lower_case_title(title):
 
 # loading the data from csv file to pandas df
 def main(movie_name=""):
-    movies, collection_value = read_mongo(db="movieData", collection="movies", username="noura3368", password=sys.argv[3])
+    movies, collection_value = read_mongo(db="movieData", collection="movies", username="noura3368", password="SamWilson1234.")
     csv_movie_name = {}
     for index, row in movies.iterrows(): 
         csv_movie_name[return_lower_case_title(row['title'])] = row['poster_path']
     # finding a recommendation based off of movie given from user
     if movie_name in csv_movie_name.keys():
-        index_of_movie = csv_movie_name.keys().index(movie_name)
+        index_of_movie = list(csv_movie_name.keys()).index(movie_name)
 
     else:
         url = "https://api.themoviedb.org/3/search/movie?query=" + quote(movie_name)+ "&page=1"
@@ -90,7 +90,7 @@ def main(movie_name=""):
             collection_value.insert_one(dictionary_of_new_row_movie)
         else:
             print(csv_movie_name, "\n")
-            index_of_movie = csv_movie_name.keys().index(str(found_movie['original_title'].lower()))
+            index_of_movie = list(csv_movie_name.keys()).index(str(found_movie['original_title'].lower()))
         #collection_value.insert_one({"genres": genres, "keywords":keywords, "original_title":movie_name, "title":movie_name})
 
     selected_features = ['genres', 'keywords']
@@ -111,12 +111,8 @@ def main(movie_name=""):
     similarity_score = sorted(list(enumerate(similarity[index_of_movie])), key = lambda x:x[1], reverse=True)
 
     movie_rec_dict = {}
-    for index in range(0, 21):  
-        #url = "https://api.themoviedb.org/3/search/movie?query=" + quote(csv_movie_name[similarity_score[index + 1][0]])+ "&page=1"
-        #found_movie = send_api_requests(url=url)['results']
-        #if len(found_movie) > 0:
-            #found_movie = found_movie[0]["poster_path"]
-        movie_rec_dict[csv_movie_name.keys()[similarity_score[index + 1][0]]] = "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + csv_movie_name[movie_rec_dict[csv_movie_name.keys()[similarity_score[index + 1][0]]] ]
+    for index in range(0, 5):  
+        movie_rec_dict[list(csv_movie_name.keys())[similarity_score[index + 1][0]]] = "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + csv_movie_name[list(csv_movie_name.keys())[similarity_score[index + 1][0]]]
     print(movie_rec_dict)
     #sys.stdout.flush()
 
