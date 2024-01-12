@@ -63,8 +63,8 @@ def return_lower_case_title(title):
 def main(movie_name=""):
     movies, collection_value = read_mongo(db="movieData", collection="movies", username="noura3368", password=sys.argv[3])
     csv_movie_name = {}
-    for title in movies:
-        csv_movie_name[return_lower_case_title(title['title'])] = title['poster_path']
+    for index, row in movies.iterrows(): 
+        csv_movie_name[return_lower_case_title(row['title'])] = row['poster_path']
     # finding a recommendation based off of movie given from user
     if movie_name in csv_movie_name.keys():
         index_of_movie = csv_movie_name.keys().index(movie_name)
