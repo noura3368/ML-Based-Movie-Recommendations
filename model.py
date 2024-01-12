@@ -111,7 +111,7 @@ def main(movie_name=""):
     similarity_score = sorted(list(enumerate(similarity[index_of_movie])), key = lambda x:x[1], reverse=True)
 
     movie_rec_dict = {}
-    for index in range(0, 5):  
+    for index in range(0, 21):  
         movie_rec_dict[list(csv_movie_name.keys())[similarity_score[index + 1][0]]] = "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + csv_movie_name[list(csv_movie_name.keys())[similarity_score[index + 1][0]]]
     print(movie_rec_dict)
     #sys.stdout.flush()
