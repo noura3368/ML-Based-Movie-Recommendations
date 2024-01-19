@@ -92,7 +92,6 @@ def main(movie_name=""):
             index_of_movie = 0
             collection_value.insert_one(dictionary_of_new_row_movie)
         else:
-            print(csv_movie_name, "\n")
             index_of_movie = csv_movie_name.index(str(found_movie['original_title'].lower()))
         #collection_value.insert_one({"genres": genres, "keywords":keywords, "original_title":movie_name, "title":movie_name})
 
