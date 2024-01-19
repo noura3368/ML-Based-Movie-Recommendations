@@ -40,7 +40,6 @@ def read_mongo(db, collection, query={}, host='localhost', port=27017, username=
 
 # Data collection and pre-processing 
 def get_string_from_df(df, col):
-    print(df)
     df_list = df[col].tolist()
     v1 = " ".join(map(str, df_list))
     return v1
