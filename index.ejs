@@ -49,7 +49,7 @@
                 <button type="submit" id="submit_button" class="btn btn-light" style="width:100px; margin-left:10px">Submit</button>
                 <br><br>
         </div>
-        <div class="modal" tabindex="-1" role="dialog" id="MyModal" aria-hidden="true">
+        <div class="modal" tabindex="-1" role="dialog" id="MyModal">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -126,11 +126,11 @@
                 console.log(response.movies.length)
                 console.log(response.movies)
                 if(response.movies.includes("False")){
-                    $('#MyModal').delay(500).fadeIn('slow');
+                    $('#MyModal').delay(800).fadeIn('slow');
                     setTimeout(function() {
                         $("#MyModal").modal('show');
                         }, 1500);
-                    //$('#MyModal').modal('show');
+                   
                 }
                 else {
                     var movies_dictionary = (response.movies).replace(/':/g,"\":").replace(/, '/g, ", \"").replace(/{'/g, "{\"").replace(/'}/, 
