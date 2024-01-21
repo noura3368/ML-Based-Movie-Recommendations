@@ -39,8 +39,9 @@
 <html>
     <head>
         <title>Movie Site</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     </head>
     <body style="background-color: #9d6290;">
         <div id="input_div_id" style="position: absolute;">
@@ -48,9 +49,44 @@
                 <button type="submit" id="submit_button" class="btn btn-light" style="width:100px; margin-left:10px">Submit</button>
                 <br><br>
         </div>
+        <div class="modal" tabindex="-1" role="dialog" id="MyModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Error!</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>We can't find the requested movie in our database! Please try a different movie.</p>
+                </div>
+              </div>
+            </div>
+        </div>
     </body>
+    <!--- 
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header ms-auto">
+            <a class="navbar-brand" href="#">WebSiteName</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Page 1</a></li>
+            <li><a href="#">Page 2</a></li>
+            <li><a href="#">Page 3</a></li>
+          </ul>
+        </div>
+      </nav>
+        
+      <div class="container">
+        <h3>Inverted Navbar</h3>
+        <p>An inverted navbar is black instead of gray.</p>
+      </div>
+      --->
     <script>
-
+    
     $( "#example-search-input" ).on( "click", function() {
         this.value = "";
     });
@@ -84,23 +120,34 @@
             url: "/",
             data: {movie: val},
             success: function(response){
-                var movies_dictionary = (response.movies).replace(/':/g,"\":").replace(/, '/g, ", \"").replace(/{'/g, "{\"").replace(/'}/, 
-                "\"}").replace(/',/g, "\",").replace(/'https/g, "\"https")
-                movies_dictionary = JSON.parse(movies_dictionary)
-                var counter = 1
-                for(let key in movies_dictionary){
-                    $("#loader").fadeOut("slow")
-                    const pic = document.createElement('img');
-                    pic.src = movies_dictionary[key]
-                    pic.style.height = '300px'
-                    pic.style.width = 'auto'
-                    pic.style.margin = '25px 50px 75px 100px'
-                    pic.id = counter
-                    pic.style.display = "none"
-                    loader.style.display = "none"
-                    document.getElementById("input_div_id").appendChild(pic);
-                    $("#" + counter).fadeIn("slow");
-                    counter += 1 
+                $("#loader").fadeOut("slow")
+                loader.style.display = "none"
+                console.log(response.movies.length)
+                console.log(response.movies)
+                if(response.movies.includes("False")){
+                    console.log("gwlo")
+                    setTimeout(function() {
+                        $("#MyModal").modal('show');
+                        }, 1500);
+                    //$('#MyModal').modal('show');
+                }
+                else {
+                    var movies_dictionary = (response.movies).replace(/':/g,"\":").replace(/, '/g, ", \"").replace(/{'/g, "{\"").replace(/'}/, 
+                    "\"}").replace(/',/g, "\",").replace(/'https/g, "\"https")
+                    movies_dictionary = JSON.parse(movies_dictionary)
+                    var counter = 1
+                    for(let key in movies_dictionary){
+                        const pic = document.createElement('img');
+                        pic.src = movies_dictionary[key]
+                        pic.style.height = '300px'
+                        pic.style.width = 'auto'
+                        pic.style.margin = '25px 50px 75px 100px'
+                        pic.id = counter
+                        pic.style.display = "none"
+                        document.getElementById("input_div_id").appendChild(pic);
+                        $("#" + counter).fadeIn("slow");
+                        counter += 1 
+                    }
                 }
             }
         });

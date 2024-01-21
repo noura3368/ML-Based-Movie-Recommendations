@@ -88,9 +88,11 @@ def main(movie_name=""):
         url += "/keywords"
         keyword_details = send_api_requests(url=url, create_dataframe=True, key='keywords')  #pool.apply_async(send_api_requests, [url, True, 'Keywords'])
 
-        keywords = get_string_from_df(df=keyword_details[0], col='name')
-        genres = get_string_from_df(df=movie_details[0], col='name')
-
+        try: 
+            keywords = get_string_from_df(df=keyword_details[0], col='name')
+            genres = get_string_from_df(df=movie_details[0], col='name')
+        except:
+            return False
         dictionary_of_new_row_movie = {"genres": genres, "keywords": keywords, "title": found_movie['original_title'], "poster_path":found_movie["poster_path"]}
         if str(found_movie['original_title']).lower() not in csv_movie_name:
             new_row_from_user = pd.DataFrame([dictionary_of_new_row_movie])
@@ -114,13 +116,16 @@ def main(movie_name=""):
 
     # find similarity score using cosine similarity
     similarity = cosine_similarity(features)
+
     # getting list of similar movies, first val index of movie, second is the similarity score of movie vs inputted movie
     similarity_score = sorted(list(enumerate(similarity[index_of_movie])), key = lambda x:x[1], reverse=True)
-    
+
     movie_rec_dict = {}
     for index in range(0, 21):  
         movie_rec_dict[csv_movie_name[similarity_score[index + 1][0]]] = "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + csv_movie_poster[similarity_score[index + 1][0]]
     print(movie_rec_dict)
+
     #sys.stdout.flush()
 
-main(movie_name=return_lower_case_title(sys.argv[1]))
+if main(movie_name=return_lower_case_title(sys.argv[1])) == False:
+    print(False)
