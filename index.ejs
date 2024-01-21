@@ -85,6 +85,7 @@
         <p>An inverted navbar is black instead of gray.</p>
       </div>
       --->
+      
     <script>
     
     $( "#example-search-input" ).on( "click", function() {
@@ -125,7 +126,7 @@
                 console.log(response.movies.length)
                 console.log(response.movies)
                 if(response.movies.includes("False")){
-                    console.log("gwlo")
+                    $('#MyModal').delay(500).fadeIn('slow');
                     setTimeout(function() {
                         $("#MyModal").modal('show');
                         }, 1500);
